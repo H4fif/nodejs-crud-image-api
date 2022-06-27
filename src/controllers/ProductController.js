@@ -37,7 +37,11 @@ const saveProduct = (req, res) => {
     const filePath = path.resolve() + '/src/public/images/' + fileName;
 
     file.mv(filePath, async (error) => {
-      if (error) return res.status(500).json({ message: error.message });
+      if (error) {
+        console.log('ERROR UPLOAD IMAGE >>>>>>> ', error);
+
+        return res.status(500).json({ message: error.message });
+      }
 
       try {
         await Product.create({
@@ -65,7 +69,7 @@ const updateProduct = async (req, res) => {
     let fileName = '';
 
     if (!req.files) {
-      fileName = Product.image;
+      fileName = product.image;
     } else {
       const file = req.files.file;
       const fileSize = file.data.length;
